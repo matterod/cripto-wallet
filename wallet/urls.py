@@ -8,7 +8,7 @@ urlpatterns = [
     path("auth/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 
     # endpoints
-    path("coins/", CoinList.as_view(), name="coins"),
-    path("transactions/", TransactionListCreate.as_view(), name="transactions"),
-    path("balances/", Balances.as_view(), name="balances"), 
+    path("coins/", CoinList.as_view(), name="coins"),                      # público
+    path("transactions/", TransactionListCreate.as_view(), name="transactions"),  # JWT
+    path("balances/", Balances.as_view(), name="balances"),                # JWT
 ]

@@ -2,17 +2,31 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# --- Helpers ---
+def env_bool(key: str, default=False):
+    v = os.getenv(key)
+    if v is None:
+        return default
+    return str(v).lower() in ("1", "true", "yes", "on")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+# --- Seguridad / entorno ---
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY") or os.getenv("SECRET_KEY", "dev-unsafe")
+DEBUG = env_bool("DJANGO_DEBUG", os.getenv("DEBUG", "1"))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)=bvs7w^ywa*r4&1y(92((8cjmskvh($dzmopm!(adz(4gc=t)'
+ALLOWED_HOSTS = [
+    h.strip() for h in os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+    if h.strip()
+]
+CSRF_TRUSTED_ORIGINS = [
+    u.strip() for u in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if u.strip()
+]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -75,7 +89,6 @@ DATABASES = {
         "NAME": os.getenv("DB_NAME", "walletdb"),
         "USER": os.getenv("DB_USER", "zen"),
         "PASSWORD": os.getenv("DB_PASS", "pass"),
-        # MUY IMPORTANTE: usar 'db' en Docker:
         "HOST": os.getenv("DB_HOST", "db"),
         "PORT": os.getenv("DB_PORT", "5432"),
     }
@@ -126,10 +139,40 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.AllowAny",
+        "rest_framework.permissions.IsAuthenticated",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
 }
-CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:5173", "http://localhost:5173"]
+
+ACCESS_MIN = int(os.getenv("ACCESS_MIN", "45"))
+REFRESH_DAYS = int(os.getenv("REFRESH_DAYS", "14"))
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=ACCESS_MIN),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=REFRESH_DAYS),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+}
+
+# --- CORS ---
+if env_bool("CORS_ALLOW_ALL_ORIGINS", False):
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOWED_ORIGINS = [
+        o.strip()
+        for o in os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",")
+        if o.strip()
+    ]
+CORS_ALLOW_CREDENTIALS = True  # si usás cookies/credenciales
+
+# --- Endurecer prod cuando DEBUG=False ---
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
