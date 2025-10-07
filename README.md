@@ -52,10 +52,26 @@ docker compose up --build
 
 ✅ La aplicación levantará automáticamente:
 
-- **Backend Django:** http://localhost:8000
+- **Backend Django:** http://localhost:8000/admin
 - **Frontend React:** http://localhost:5173
 - **Base de datos PostgreSQL:** puerto 5432
 - **Redis:** puerto 6379
+
+Para crear el user y su Password:
+
+```bash
+docker compose exec backend python manage.py createsuperuser
+```
+Te va a pedir:
+
+```bash
+Username: admin
+Email address: admin@example.com
+Password: ******
+Password (again): ******
+```
+
+Completas los datos e Inicias con eso.
 
 ### 🧩 OPCIÓN 2 — DESARROLLO LOCAL (sin Docker)
 
