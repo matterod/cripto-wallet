@@ -131,5 +131,5 @@ El dashboard muestra información de forma visual e interactiva:
 **Matteo Rodríguez**
 
 - 💼 Desarrollador Full Stack / IoT / Networking
-- 📧 matterod@proton.me
+- 📧 rodrigmatteo@gmail.com
 - 🌐 [github.com/matterod](https://github.com/matterod)
