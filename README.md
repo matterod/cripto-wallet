@@ -108,7 +108,7 @@ El dashboard muestra información de forma visual e interactiva:
 - 💵 **Registro cronológico de todas las transacciones**
 - 💰 **Cálculo del valor total en USD**
 
-![Dashboard Screenshot](docs/dashboard_screenshot.png)
+<img width="488" height="891" alt="Screenshot from 2025-10-06 21-21-20" src="https://github.com/user-attachments/assets/8f471355-651d-4a0f-bbfd-c6a11a3f8e54" />
 
 ## 🧑‍💼 AUTOR
 
