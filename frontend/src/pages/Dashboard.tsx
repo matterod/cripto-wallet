@@ -1,4 +1,4 @@
-// src/pages/Dashboard.tsx
+// pages/Dashboard.tsx
 import { useEffect, useState } from "react";
 import api from "../api";
 import type { Transaction, Coin } from "../types";

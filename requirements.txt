@@ -9,3 +9,5 @@ redis>=5.0
 pytest>=8.0
 pytest-django>=4.8
 drf-spectacular
+web3
+djangorestframework-simplejwt
