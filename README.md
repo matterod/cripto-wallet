@@ -2,13 +2,14 @@
 
 ## ¿Qué es Cripto Wallet?
 
-Cripto Wallet es una aplicación full-stack moderna que permite registrar, visualizar y analizar transacciones de criptomonedas en tiempo real. Está desarrollada con Django Rest Framework, React + TypeScript, Redis y PostgreSQL, integrando backend, frontend y servicios con Docker Compose.
+Cripto Wallet es una aplicación full-stack moderna que permite registrar, visualizar y analizar transacciones de criptomonedas. Está desarrollada con Django Rest Framework, React + TypeScript, Redis y PostgreSQL, integrando backend, frontend y servicios con Docker Compose.
 
-Su objetivo es simular una billetera digital de inversión, similar a la interfaz de exchanges como Ripio, Binance o Coinbase, con métricas financieras y visualizaciones dinámicas.
+Su objetivo es simular una billetera digital de inversión, similar a la interfaz de exchanges como Ripio, Binance o Coinbase. 🦊 Ofrece un sistema de autenticación dual, permitiendo el registro clásico por usuario/contraseña (JWT) y una moderna autenticación descentralizada (Web3) a través de MetaMask.
 
 ## 🚀 FUNCIONALIDADES PRINCIPALES
 
-- ✅ **Autenticación JWT** — Inicio de sesión y validación de usuarios con tokens.
+- ✅ **Autenticación JWT** — Inicio de sesión clásico y validación de usuarios con tokens.
+- ✅ **Autenticación Web3** — Inicio de sesión descentralizado usando firmas criptográficas de MetaMask (EIP-191).
 - ✅ **API REST profesional** — Creada con Django Rest Framework.
 - ✅ **Base de datos PostgreSQL** — Persistencia de usuarios, monedas y transacciones.
 - ✅ **Sistema de balances automáticos** — Calcula valores y totales en USD.
@@ -57,12 +58,28 @@ docker compose up --build
 - **Base de datos PostgreSQL:** puerto 5432
 - **Redis:** puerto 6379
 
-Para crear el user y su Password:
+#### 3️⃣ Opciones de Inicio de Sesión
+
+El proyecto soporta dos métodos de autenticación:
+
+##### Opción A: Login Web3 (Recomendado) 🦊
+
+1. Abre el frontend: http://localhost:5173
+2. Haz clic en "Entrar con MetaMask".
+3. Conecta tu wallet y firma el mensaje.
+4. ¡Listo! El sistema creará un usuario en el backend asociado automáticamente a tu dirección de wallet.
+
+##### Opción B: Login Clásico (para Admin) 🔑
+
+Si quieres probar el login clásico o acceder al panel de admin de Django (para agregar monedas manualmente, etc.):
+
+1. Crea un superusuario en la terminal:
 
 ```bash
 docker compose exec backend python manage.py createsuperuser
 ```
-Te va a pedir:
+
+2. Te pedirá los datos:
 
 ```bash
 Username: admin
@@ -71,7 +88,7 @@ Password: ******
 Password (again): ******
 ```
 
-Completas los datos e Inicias con eso.
+3. Inicia sesión con esas credenciales en el frontend (botón "Iniciar sesión con Usuario") o en el panel de admin de Django.
 
 ### 🧩 OPCIÓN 2 — DESARROLLO LOCAL (sin Docker)
 
@@ -106,11 +123,11 @@ pytest
 
 ## 🧰 STACK TECNOLÓGICO
 
-- 🖥️ **Backend:** Django 5 + Django Rest Framework
-- 🔒 **Autenticación:** JWT (SimpleJWT)
+- 🖥️ **Backend:** Django 5 + Django Rest Framework + Web3.py
+- 🔒 **Autenticación:** JWT (SimpleJWT) + Firmas Web3 (EIP-191)
 - 🗄️ **Base de datos:** PostgreSQL
 - ⚙️ **Cache / Cola:** Redis
-- 💡 **Frontend:** React + TypeScript + Vite
+- 💡 **Frontend:** React + TypeScript + Vite + Ethers.js
 - 🎨 **Estilos:** Tailwind + CSS modular
 - 🐳 **Infraestructura:** Docker Compose
 - 🧪 **Testing:** Pytest + Django TestCase
@@ -119,16 +136,16 @@ pytest
 
 El dashboard muestra información de forma visual e interactiva:
 
-- 📈 **Evolución del capital invertido en el tiempo**
-- 💹 **Composición del portafolio por moneda**
-- 💵 **Registro cronológico de todas las transacciones**
-- 💰 **Cálculo del valor total en USD**
+- 📈 Evolución del capital invertido en el tiempo
+- 💹 Composición del portafolio por moneda
+- 💵 Registro cronológico de todas las transacciones
+- 💰 Cálculo del valor total en USD
 
-<img width="488" height="891" alt="Screenshot from 2025-10-06 21-21-20" src="https://github.com/user-attachments/assets/8f471355-651d-4a0f-bbfd-c6a11a3f8e54" />
+![Screenshot from 2025-10-06 21-21-20](https://github.com/user-attachments/assets/8f471355-651d-4a0f-bbfd-c6a11a3f8e54)
 
 ## 🧑‍💼 AUTOR
 
-**Matteo Rodríguez**
+**Mateo Rodríguez**
 
 - 💼 Desarrollador Full Stack / IoT / Networking
 - 📧 rodrigmatteo@gmail.com
